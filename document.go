@@ -43,7 +43,10 @@ func (doc *Document) SetUnicodeTranslator(fn UnicodeTranslateFunc) {
 
 // encodeString encodes the string using doc.Options.UnicodeTranslateFunc
 func (doc *Document) encodeString(str string) string {
-	return doc.Options.UnicodeTranslateFunc(str)
+	if doc.Options != nil && doc.Options.UnicodeTranslateFunc != nil {
+		return doc.Options.UnicodeTranslateFunc(str)
+	}
+	return str
 }
 
 // typeAsString return the document type as string
