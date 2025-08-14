@@ -534,7 +534,7 @@ func (doc *Document) appendBarcode() {
 
 	if imageInfo != nil {
 		// Position barcode at bottom right
-		x := 190 - imageInfo.Width() // Right align
+		x := 190 - imageInfo.Width() - 2.5 // Right align
 		y := doc.pdf.GetY() + 10
 
 		doc.pdf.ImageOptions(fileName, x, y, 0, 10, false, fpdf.ImageOptions{

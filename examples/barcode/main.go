@@ -8,17 +8,35 @@ import (
 
 func main() {
 	doc, _ := generator.New(generator.Invoice, &generator.Options{
-		TextTypeInvoice:   "FACTURE",
-		TextRefTitle:      "Ref",
+		TextTypeInvoice:   "Hóa Đơn",
 		AutoPrint:         true,
-		BaseTextColor:     []int{6, 63, 156},
-		GreyTextColor:     []int{161, 96, 149},
-		GreyBgColor:       []int{171, 240, 129},
-		DarkBgColor:       []int{176, 12, 20},
-		CurrencyPrecision: 0, // Không có chữ số thập phân - sẽ hiển thị € 100 thay vì € 100.00
-		CurrencySymbol:    "€ ",
-		CurrencyDecimal:   ".",
-		CurrencyThousand:  " ",
+		CurrencySymbol:    "VND",
+		CurrencyThousand:  ".",
+		CurrencyDecimal:   ",",
+		CurrencyPrecision: 0,
+		Format:            "%v %s",
+		FormatNegative:    "- %v %s",
+		FormatZero:        "0 %s",
+		BarCode:           "1234567890",
+		TextInvoiceTitle:  "Mã Vận Đơn",
+
+		TextDateTitle:          "Ngày",
+		TextRefTitle:           "Mã đơn hàng",
+		TextVersionTitle:       "Phiên bản",
+		TextTypeQuotation:      "Trích dẫn",
+		TextPaymentTermTitle:   "Ngày đặt hàng",
+		TextItemsNameTitle:     "Tên sản phẩm",
+		TextItemsUnitCostTitle: "Đơn giá",
+		TextItemsQuantityTitle: "SL",
+		TextItemsDiscountTitle: "Giảm giá",
+		TextItemsTaxTitle:      "Thuế",
+		TextItemsTotalHTTitle:  "Tổng tiền",
+		TextItemsTotalTTCTitle: "Thành tiền",
+		TextTotalDiscounted:    "Tổng giảm giá",
+		TextTypeDeliveryNote:   "Phiếu giao hàng",
+		TextTotalTax:           "Tổng Thuế",
+		TextTotalTotal:         "Tổng cộng",
+		TextTotalWithTax:       "Thành Tiền",
 	})
 
 	doc.SetHeader(&generator.HeaderFooter{
