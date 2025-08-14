@@ -110,7 +110,7 @@ func (i *Item) TaxWithTotalDiscounted() decimal.Decimal {
 // appendColTo document doc
 func (i *Item) appendColTo(options *Options, doc *Document) {
 	// Get base Y (top of line)
-	baseY := doc.pdf.GetY()
+	baseY := doc.pdf.GetY() + 5
 
 	// Name
 	doc.pdf.SetX(ItemColNameOffset)
