@@ -1,5 +1,4 @@
-module github.com/angelodlfrtr/go-invoice-generator
-
+module github.com/tuanhuu3264/tuan-invoice
 go 1.17
 
 require (
