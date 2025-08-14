@@ -205,7 +205,7 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 		doc.pdf.CellFormat(
 			ItemColTotalTTCOffset-ItemColDiscountOffset,
 			colHeight,
-			doc.encodeString("--"),
+			doc.encodeString("0 VND"),
 			"0",
 			0,
 			"",

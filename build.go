@@ -9,7 +9,6 @@ import (
 	"github.com/boombuler/barcode"
 	"github.com/boombuler/barcode/code128"
 	"github.com/go-pdf/fpdf"
-	"github.com/shopspring/decimal"
 )
 
 // Build pdf document from data provided
@@ -367,23 +366,23 @@ func (doc *Document) appendTotal() {
 		)
 
 		var descString bytes.Buffer
-		discountType, discountAmount := doc.Discount.getDiscount()
-		if discountType == DiscountTypePercent {
-			descString.WriteString("-")
-			descString.WriteString(discountAmount.String())
-			descString.WriteString(" % / -")
-			descString.WriteString(doc.ac.FormatMoneyDecimal(
-				doc.TotalWithoutTaxAndWithoutDocumentDiscount().Sub(doc.TotalWithoutTax())),
-			)
-		} else {
-			descString.WriteString("-")
-			descString.WriteString(doc.ac.FormatMoneyDecimal(discountAmount))
-			descString.WriteString(" / -")
-			descString.WriteString(
-				discountAmount.Mul(decimal.NewFromFloat(100)).Div(doc.TotalWithoutTaxAndWithoutDocumentDiscount()).StringFixed(2),
-			)
-			descString.WriteString(" %")
-		}
+		_, discountAmount := doc.Discount.getDiscount()
+		// if discountType == DiscountTypePercent {
+		// 	descString.WriteString("-")
+		// 	descString.WriteString(discountAmount.String())
+		// 	descString.WriteString(" % / -")
+		// 	descString.WriteString(doc.ac.FormatMoneyDecimal(
+		// 		doc.TotalWithoutTaxAndWithoutDocumentDiscount().Sub(doc.TotalWithoutTax())),
+		// 	)
+		// } else {
+		// 	descString.WriteString("-")
+		// 	descString.WriteString(doc.ac.FormatMoneyDecimal(discountAmount))
+		// 	descString.WriteString(" / -")
+		// 	descString.WriteString(
+		// 		discountAmount.Mul(decimal.NewFromFloat(100)).Div(doc.TotalWithoutTaxAndWithoutDocumentDiscount()).StringFixed(2),
+		// 	)
+		// 	descString.WriteString(" %")
+		// }
 
 		doc.pdf.CellFormat(38, 7.5, doc.encodeString(descString.String()), "0", 0, "TR", false, 0, "")
 
@@ -402,7 +401,7 @@ func (doc *Document) appendTotal() {
 		doc.pdf.CellFormat(
 			40,
 			15,
-			doc.encodeString(doc.ac.FormatMoneyDecimal(doc.TotalWithoutTax())),
+			doc.encodeString(doc.ac.FormatMoneyDecimal(discountAmount)),
 			"0",
 			0,
 			"L",

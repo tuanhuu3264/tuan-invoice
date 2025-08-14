@@ -70,9 +70,9 @@ func (c *Contact) appendContactTODoc(
 	doc.pdf.Rect(x, doc.pdf.GetY(), 80, 10, "F")
 
 	// Set name - match Title Invoice styling
-	doc.pdf.SetFont(doc.Options.Font, "", 14)
-	doc.pdf.CellFormat(80, 10, doc.encodeString(c.Name), "0", 0, "C", false, 0, "")
-	doc.pdf.SetFont(doc.Options.Font, "", 10)
+	doc.pdf.SetFont(doc.Options.Font, "B", 10)
+	doc.pdf.CellFormat(80, 10, doc.encodeString(c.Name), "0", 0, "L", false, 0, "")
+	doc.pdf.SetFont(doc.Options.Font, "", 8)
 
 	if c.Address != nil {
 		// Address rect - match Title Invoice width
