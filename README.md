@@ -1,6 +1,6 @@
-![golangci-lint](https://github.com/angelodlfrtr/go-invoice-generator/actions/workflows/golangci-lint.yml/badge.svg)
-[![Go Report Card](https://goreportcard.com/badge/github.com/angelodlfrtr/go-invoice-generator)](https://goreportcard.com/report/github.com/angelodlfrtr/go-invoice-generator)
-[![GoDoc](https://godoc.org/github.com/angelodlfrtr/go-invoice-generator?status.svg)](https://godoc.org/github.com/angelodlfrtr/go-invoice-generator)
+![golangci-lint](https://github.com/tuanhuu3264/tuan-invoice/actions/workflows/golangci-lint.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tuanhuu3264/tuan-invoice)](https://goreportcard.com/report/github.com/tuanhuu3264/tuan-invoice)
+[![GoDoc](https://godoc.org/github.com/tuanhuu3264/tuan-invoice?status.svg)](https://godoc.org/github.com/tuanhuu3264/tuan-invoice)
 
 # Golang invoice generator
 
@@ -20,7 +20,7 @@ using https://github.com/go-pdf/fpdf.
 ## Download from Github
 
 ```
-go get -u github.com/angelodlfrtr/go-invoice-generator
+go get -u github.com/tuanhuu3264/tuan-invoice
 ```
 
 ## Example output
@@ -36,7 +36,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	generator "github.com/angelodlfrtr/go-invoice-generator"
+	generator "github.com/tuanhuu3264/tuan-invoice"
 )
 ```
 

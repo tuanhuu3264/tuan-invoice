@@ -1,7 +1,9 @@
 module github.com/tuanhuu3264/tuan-invoice
+
 go 1.17
 
 require (
+	github.com/angelodlfrtr/go-invoice-generator v0.6.0
 	github.com/boombuler/barcode v1.0.1
 	github.com/creasty/defaults v1.6.0
 	github.com/go-pdf/fpdf v0.6.0

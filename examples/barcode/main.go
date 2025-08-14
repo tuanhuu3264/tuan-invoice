@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	generator "github.com/angelodlfrtr/go-invoice-generator"
+	generator "github.com/tuanhuu3264/tuan-invoice"
 )
 
 func main() {
