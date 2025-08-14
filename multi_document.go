@@ -184,7 +184,10 @@ func (md *MultiDocument) appendBarcode(doc *Document) {
 
 		// Convert to image
 		var buf bytes.Buffer
-		jpeg.Encode(&buf, scaledCode, nil)
+		if err := jpeg.Encode(&buf, scaledCode, nil); err != nil {
+			// Skip barcode if encoding fails
+			return
+		}
 
 		// Add to PDF
 		md.pdf.SetXY(120, BaseMarginTop+11)
