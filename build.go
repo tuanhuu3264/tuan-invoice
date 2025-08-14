@@ -21,11 +21,12 @@ func (doc *Document) Build() (*fpdf.Fpdf, error) {
 	// Build base doc
 	doc.pdf.SetMargins(BaseMargin, BaseMarginTop, BaseMargin)
 	doc.pdf.SetXY(10, 10)
-	doc.pdf.SetTextColor(
-		doc.Options.BaseTextColor[0],
-		doc.Options.BaseTextColor[1],
-		doc.Options.BaseTextColor[2],
-	)
+	// Set text color with safe values
+	baseTextColor := []int{35, 35, 35} // Default color
+	if doc.Options.BaseTextColor != nil && len(doc.Options.BaseTextColor) >= 3 {
+		baseTextColor = doc.Options.BaseTextColor
+	}
+	doc.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
 
 	// Set header
 	if doc.Header != nil {
@@ -98,6 +99,14 @@ func (doc *Document) Build() (*fpdf.Fpdf, error) {
 	return doc.pdf, nil
 }
 
+// getSafeColor returns a safe color array with default values if the input is too short
+func (doc *Document) getSafeColor(color []int, defaultColor []int) []int {
+	if len(color) >= 3 {
+		return color
+	}
+	return defaultColor
+}
+
 // appendTitle to document
 func (doc *Document) appendTitle() {
 	title := doc.typeAsString()
@@ -105,8 +114,9 @@ func (doc *Document) appendTitle() {
 	// Set x y
 	doc.pdf.SetXY(120, BaseMarginTop)
 
-	// Draw rect
-	doc.pdf.SetFillColor(doc.Options.DarkBgColor[0], doc.Options.DarkBgColor[1], doc.Options.DarkBgColor[2])
+	// Draw rect with safe color
+	darkColor := doc.getSafeColor(doc.Options.DarkBgColor, []int{0, 0, 0})
+	doc.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
 	doc.pdf.Rect(120, BaseMarginTop, 80, 10, "F")
 
 	// Draw text

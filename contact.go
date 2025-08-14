@@ -54,11 +54,12 @@ func (c *Contact) appendContactTODoc(
 
 	// Name
 	if fill {
-		doc.pdf.SetFillColor(
-			doc.Options.GreyBgColor[0],
-			doc.Options.GreyBgColor[1],
-			doc.Options.GreyBgColor[2],
-		)
+		// Set fill color with safe values
+		greyColor := []int{240, 240, 240} // Default grey color
+		if doc.Options.GreyBgColor != nil && len(doc.Options.GreyBgColor) >= 3 {
+			greyColor = doc.Options.GreyBgColor
+		}
+		doc.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
 	} else {
 		doc.pdf.SetFillColor(255, 255, 255)
 	}

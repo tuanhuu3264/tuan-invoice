@@ -129,11 +129,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 		doc.pdf.SetY(doc.pdf.GetY() + 1)
 
 		doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.GreyTextColor[0],
-			doc.Options.GreyTextColor[1],
-			doc.Options.GreyTextColor[2],
-		)
+		// Set grey text color with safe values
+		greyTextColor := []int{128, 128, 128} // Default grey text color
+		if doc.Options.GreyTextColor != nil && len(doc.Options.GreyTextColor) >= 3 {
+			greyTextColor = doc.Options.GreyTextColor
+		}
+		doc.pdf.SetTextColor(greyTextColor[0], greyTextColor[1], greyTextColor[2])
 
 		doc.pdf.MultiCell(
 			ItemColUnitPriceOffset-ItemColNameOffset,
@@ -146,11 +147,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 
 		// Reset font
 		doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.BaseTextColor[0],
-			doc.Options.BaseTextColor[1],
-			doc.Options.BaseTextColor[2],
-		)
+		// Set base text color with safe values
+		baseTextColor := []int{35, 35, 35} // Default base text color
+		if doc.Options.BaseTextColor != nil && len(doc.Options.BaseTextColor) >= 3 {
+			baseTextColor = doc.Options.BaseTextColor
+		}
+		doc.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
 	}
 
 	// Compute line height
@@ -252,11 +254,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 		// discount desc
 		doc.pdf.SetXY(ItemColDiscountOffset, baseY+(colHeight/2))
 		doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.GreyTextColor[0],
-			doc.Options.GreyTextColor[1],
-			doc.Options.GreyTextColor[2],
-		)
+		// Set grey text color with safe values
+		greyTextColor := []int{128, 128, 128} // Default grey text color
+		if doc.Options.GreyTextColor != nil && len(doc.Options.GreyTextColor) >= 3 {
+			greyTextColor = doc.Options.GreyTextColor
+		}
+		doc.pdf.SetTextColor(greyTextColor[0], greyTextColor[1], greyTextColor[2])
 
 		doc.pdf.CellFormat(
 			ItemColTotalTTCOffset-ItemColDiscountOffset,
@@ -272,11 +275,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 
 		// reset font and y
 		doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.BaseTextColor[0],
-			doc.Options.BaseTextColor[1],
-			doc.Options.BaseTextColor[2],
-		)
+		// Set base text color with safe values
+		baseTextColor := []int{35, 35, 35} // Default base text color
+		if doc.Options.BaseTextColor != nil && len(doc.Options.BaseTextColor) >= 3 {
+			baseTextColor = doc.Options.BaseTextColor
+		}
+		doc.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
 		doc.pdf.SetY(baseY)
 	}
 
@@ -333,11 +337,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 		// tax desc
 		doc.pdf.SetXY(ItemColTaxOffset, baseY+(colHeight/2))
 		doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.GreyTextColor[0],
-			doc.Options.GreyTextColor[1],
-			doc.Options.GreyTextColor[2],
-		)
+		// Set grey text color with safe values
+		greyTextColor := []int{128, 128, 128} // Default grey text color
+		if doc.Options.GreyTextColor != nil && len(doc.Options.GreyTextColor) >= 3 {
+			greyTextColor = doc.Options.GreyTextColor
+		}
+		doc.pdf.SetTextColor(greyTextColor[0], greyTextColor[1], greyTextColor[2])
 
 		doc.pdf.CellFormat(
 			ItemColDiscountOffset-ItemColTaxOffset,
@@ -353,11 +358,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 
 		// reset font and y
 		doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.BaseTextColor[0],
-			doc.Options.BaseTextColor[1],
-			doc.Options.BaseTextColor[2],
-		)
+		// Set base text color with safe values
+		baseTextColor := []int{35, 35, 35} // Default base text color
+		if doc.Options.BaseTextColor != nil && len(doc.Options.BaseTextColor) >= 3 {
+			baseTextColor = doc.Options.BaseTextColor
+		}
+		doc.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
 		doc.pdf.SetY(baseY)
 	}
 
