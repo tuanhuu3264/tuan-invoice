@@ -46,6 +46,10 @@ func (md *MultiDocument) SetFooter(footer *HeaderFooter) {
 	md.Footer = footer
 }
 
+func (md *MultiDocument) GetPdf() *fpdf.Fpdf {
+	return md.pdf
+}
+
 // Build generates the PDF with all documents
 func (md *MultiDocument) Build() (*fpdf.Fpdf, error) {
 	// Set up the PDF
