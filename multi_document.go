@@ -187,8 +187,17 @@ func (md *MultiDocument) appendTitle(doc *Document) {
 func (md *MultiDocument) appendBarcode(doc *Document) {
 	if len(doc.BarCode) > 0 {
 		// Generate barcode
-		code, _ := code128.Encode(doc.BarCode)
-		scaledCode, _ := barcode.Scale(code, 80, 20)
+		code, err := code128.Encode(doc.BarCode)
+		if err != nil {
+			// Skip barcode if encoding fails
+			return
+		}
+
+		scaledCode, err := barcode.Scale(code, 80, 20)
+		if err != nil {
+			// Skip barcode if scaling fails
+			return
+		}
 
 		// Convert to image
 		var buf bytes.Buffer
