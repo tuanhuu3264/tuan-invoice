@@ -52,30 +52,6 @@ func (md *MultiDocument) GetPdf() *fpdf.Fpdf {
 
 // Build generates the PDF with all documents
 func (md *MultiDocument) Build() (*fpdf.Fpdf, error) {
-	// Set up the PDF
-	md.pdf.SetMargins(BaseMargin, BaseMarginTop, BaseMargin)
-
-	// Set text color with default values if BaseTextColor is nil or empty
-	baseTextColor := md.getSafeColor(md.Options.BaseTextColor, []int{35, 35, 35}) // Default color
-	md.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
-
-	// Set header and footer for the entire document
-	if md.Header != nil {
-		tempDoc := &Document{pdf: md.pdf, Options: md.Options}
-		tempDoc.SetUnicodeTranslator(md.Options.UnicodeTranslateFunc)
-		if err := md.Header.applyHeader(tempDoc); err != nil {
-			return nil, err
-		}
-	}
-
-	if md.Footer != nil {
-		tempDoc := &Document{pdf: md.pdf, Options: md.Options}
-		tempDoc.SetUnicodeTranslator(md.Options.UnicodeTranslateFunc)
-		if err := md.Footer.applyFooter(tempDoc); err != nil {
-			return nil, err
-		}
-	}
-
 	// Process each document
 	for i, doc := range md.Docs {
 		// Add new page for each document (except the first one)
@@ -162,14 +138,6 @@ func (md *MultiDocument) buildDocument(doc *Document) error {
 	return nil
 }
 
-// getSafeColor returns a safe color array with default values if the input is too short
-func (md *MultiDocument) getSafeColor(color []int, defaultColor []int) []int {
-	if len(color) >= 3 {
-		return color
-	}
-	return defaultColor
-}
-
 // appendTitle appends the title for a specific document
 func (md *MultiDocument) appendTitle(doc *Document) {
 	title := doc.typeAsString()
@@ -178,8 +146,7 @@ func (md *MultiDocument) appendTitle(doc *Document) {
 	md.pdf.SetXY(120, BaseMarginTop)
 
 	// Draw rect with safe color
-	darkColor := md.getSafeColor(md.Options.DarkBgColor, []int{0, 0, 0})
-	md.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
+	md.pdf.SetFillColor(md.Options.DarkBgColor[0], md.Options.DarkBgColor[1], md.Options.DarkBgColor[2])
 	md.pdf.Rect(120, BaseMarginTop, 80, 10, "F")
 
 	// Draw text
@@ -274,8 +241,7 @@ func (md *MultiDocument) drawsTableTitles(doc *Document) {
 	md.pdf.SetFont(md.Options.BoldFont, "B", 8)
 
 	// Draw rect with safe color
-	greyColor := md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
-	md.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
+	md.pdf.SetFillColor(md.Options.GreyBgColor[0], md.Options.GreyBgColor[1], md.Options.GreyBgColor[2])
 	md.pdf.Rect(10, md.pdf.GetY(), 190, 6, "F")
 
 	// Name
@@ -391,21 +357,21 @@ func (md *MultiDocument) appendTotal(doc *Document) {
 	md.pdf.SetY(md.pdf.GetY() + 10)
 	md.pdf.SetFont(md.Options.Font, "", LargeTextFontSize)
 
-	// Set text color with default values if BaseTextColor is nil or empty
-	baseTextColor := md.getSafeColor(md.Options.BaseTextColor, []int{35, 35, 35}) // Default color
-	md.pdf.SetTextColor(baseTextColor[0], baseTextColor[1], baseTextColor[2])
+	md.pdf.SetTextColor(
+		md.Options.BaseTextColor[0],
+		md.Options.BaseTextColor[1],
+		md.Options.BaseTextColor[2],
+	)
 
 	// Draw TOTAL HT title
 	md.pdf.SetX(120)
-	darkColor := md.getSafeColor(md.Options.DarkBgColor, []int{0, 0, 0})
-	md.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
+	md.pdf.SetFillColor(md.Options.DarkBgColor[0], md.Options.DarkBgColor[1], md.Options.DarkBgColor[2])
 	md.pdf.Rect(120, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(38, 10, doc.encodeString(md.Options.TextTotalTotal), "0", 0, "R", false, 0, "")
 
 	// Draw TOTAL HT amount
 	md.pdf.SetX(162)
-	greyColor := md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
-	md.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
+	md.pdf.SetFillColor(md.Options.GreyBgColor[0], md.Options.GreyBgColor[1], md.Options.GreyBgColor[2])
 	md.pdf.Rect(160, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(
 		40,
@@ -422,15 +388,13 @@ func (md *MultiDocument) appendTotal(doc *Document) {
 	if doc.Discount != nil {
 		// Draw discount title
 		md.pdf.SetX(120)
-		darkColor = md.getSafeColor(md.Options.DarkBgColor, []int{0, 0, 0})
-		md.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
+		md.pdf.SetFillColor(md.Options.DarkBgColor[0], md.Options.DarkBgColor[1], md.Options.DarkBgColor[2])
 		md.pdf.Rect(120, md.pdf.GetY(), 40, 15, "F")
 		md.pdf.CellFormat(38, 15, doc.encodeString(md.Options.TextTotalDiscounted), "0", 0, "R", false, 0, "")
 
 		// Draw discount amount
 		md.pdf.SetX(162)
-		greyColor = md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
-		md.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
+		md.pdf.SetFillColor(md.Options.GreyBgColor[0], md.Options.GreyBgColor[1], md.Options.GreyBgColor[2])
 		md.pdf.Rect(160, md.pdf.GetY(), 40, 15, "F")
 		md.pdf.CellFormat(
 			40,
@@ -450,15 +414,13 @@ func (md *MultiDocument) appendTotal(doc *Document) {
 
 	// Draw tax title
 	md.pdf.SetX(120)
-	darkColor = md.getSafeColor(md.Options.DarkBgColor, []int{0, 0, 0})
-	md.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
+	md.pdf.SetFillColor(md.Options.DarkBgColor[0], md.Options.DarkBgColor[1], md.Options.DarkBgColor[2])
 	md.pdf.Rect(120, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(38, 10, doc.encodeString(md.Options.TextTotalTax), "0", 0, "R", false, 0, "")
 
 	// Draw tax amount
 	md.pdf.SetX(162)
-	greyColor = md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
-	md.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
+	md.pdf.SetFillColor(md.Options.GreyBgColor[0], md.Options.GreyBgColor[1], md.Options.GreyBgColor[2])
 	md.pdf.Rect(160, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(
 		40,
@@ -475,15 +437,13 @@ func (md *MultiDocument) appendTotal(doc *Document) {
 	// Draw total with tax title
 	md.pdf.SetY(md.pdf.GetY() + 10)
 	md.pdf.SetX(120)
-	darkColor = md.getSafeColor(md.Options.DarkBgColor, []int{0, 0, 0})
-	md.pdf.SetFillColor(darkColor[0], darkColor[1], darkColor[2])
+	md.pdf.SetFillColor(md.Options.DarkBgColor[0], md.Options.DarkBgColor[1], md.Options.DarkBgColor[2])
 	md.pdf.Rect(120, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(38, 10, doc.encodeString(md.Options.TextTotalWithTax), "0", 0, "R", false, 0, "")
 
 	// Draw total with tax amount
 	md.pdf.SetX(162)
-	greyColor = md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
-	md.pdf.SetFillColor(greyColor[0], greyColor[1], greyColor[2])
+	md.pdf.SetFillColor(md.Options.GreyBgColor[0], md.Options.GreyBgColor[1], md.Options.GreyBgColor[2])
 	md.pdf.Rect(160, md.pdf.GetY(), 40, 10, "F")
 	md.pdf.CellFormat(
 		40,
