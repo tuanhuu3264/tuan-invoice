@@ -158,9 +158,9 @@ func (md *MultiDocument) buildDocument(doc *Document) error {
 	return nil
 }
 
-// getSafeColor returns a safe color array with default values if the input is nil or too short
+// getSafeColor returns a safe color array with default values if the input is too short
 func (md *MultiDocument) getSafeColor(color []int, defaultColor []int) []int {
-	if color != nil && len(color) >= 3 {
+	if len(color) >= 3 {
 		return color
 	}
 	return defaultColor
