@@ -123,10 +123,11 @@ func (md *MultiDocument) buildDocument(doc *Document) error {
 	// Append customer contact to doc
 	customerBottom := doc.Customer.appendCustomerContactToDoc(doc)
 
+	// Set position to the bottom of the higher contact section
 	if customerBottom > companyBottom {
-		md.pdf.SetXY(10, customerBottom)
+		md.pdf.SetXY(10, customerBottom+5)
 	} else {
-		md.pdf.SetXY(10, companyBottom)
+		md.pdf.SetXY(10, companyBottom+5)
 	}
 
 	// Append description
@@ -197,13 +198,13 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	dateString := fmt.Sprintf("%s: %s", md.Options.TextDateTitle, date)
 	md.pdf.SetXY(120, BaseMarginTop+19)
 	md.pdf.SetFont(md.Options.Font, "", 8)
-	doc.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
+	md.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
 }
 
 // appendDescription to document
 func (md *MultiDocument) appendDescription(doc *Document) {
 	if len(doc.Description) > 0 {
-		md.pdf.SetY(md.pdf.GetY() + 10)
+		md.pdf.SetY(md.pdf.GetY() + 5)
 		md.pdf.SetFont(md.Options.Font, "", 10)
 		md.pdf.MultiCell(190, 5, doc.encodeString(doc.Description), "B", "L", false)
 	}

@@ -47,8 +47,7 @@ func (c *Contact) appendContactTODoc(
 		if imageInfo != nil {
 			var imageOpt fpdf.ImageOptions
 			imageOpt.ImageType = format
-			doc.pdf.ImageOptions(fileName, doc.pdf.GetX(), y, 20, 30, false, imageOpt, 0, "")
-			doc.pdf.SetY(y + 30)
+			doc.pdf.ImageOptions(fileName, x, y-30, 20, 30, false, imageOpt, 0, "")
 		}
 	}
 
@@ -114,11 +113,12 @@ func (c *Contact) appendContactTODoc(
 
 // appendCompanyContactToDoc append the company contact to the document
 func (c *Contact) appendCompanyContactToDoc(doc *Document) float64 {
-	x, y, _, _ := doc.pdf.GetMargins()
-	return c.appendContactTODoc(x, y, true, "L", doc)
+	// Always start at the same Y position regardless of logo
+	return c.appendContactTODoc(10, BaseMarginTop+28, true, "L", doc)
 }
 
 // appendCustomerContactToDoc append the customer contact to the document
 func (c *Contact) appendCustomerContactToDoc(doc *Document) float64 {
+	// Always start at the same Y position regardless of logo
 	return c.appendContactTODoc(120, BaseMarginTop+28, true, "R", doc)
 }
