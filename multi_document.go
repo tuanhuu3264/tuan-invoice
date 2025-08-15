@@ -182,21 +182,13 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	md.pdf.SetFont(md.Options.Font, "", 8)
 	md.pdf.CellFormat(80, 4, doc.encodeString(refString), "0", 0, "R", false, 0, "")
 
-	// Append version
-	if len(doc.Version) > 0 {
-		versionString := fmt.Sprintf("%s: %s", md.Options.TextVersionTitle, doc.Version)
-		md.pdf.SetXY(120, BaseMarginTop+15)
-		md.pdf.SetFont(md.Options.Font, "", 8)
-		md.pdf.CellFormat(80, 4, doc.encodeString(versionString), "0", 0, "R", false, 0, "")
-	}
-
 	// Append date
 	date := time.Now().Format("02/01/2006")
 	if len(doc.Date) > 0 {
 		date = doc.Date
 	}
 	dateString := fmt.Sprintf("%s: %s", md.Options.TextDateTitle, date)
-	md.pdf.SetXY(120, BaseMarginTop+19)
+	md.pdf.SetXY(120, BaseMarginTop+15)
 	md.pdf.SetFont(md.Options.Font, "", 8)
 	md.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
 }
