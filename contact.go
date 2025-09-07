@@ -3,6 +3,7 @@ package generator
 import (
 	"bytes"
 	b64 "encoding/base64"
+	"fmt"
 	"image"
 
 	"github.com/go-pdf/fpdf"
@@ -10,11 +11,10 @@ import (
 
 // Contact contact a company informations
 type Contact struct {
-	Name    string   `json:"name,omitempty" validate:"required,min=1,max=256"`
-	Logo    []byte   `json:"logo,omitempty"` // Logo byte array
-	Address *Address `json:"address,omitempty"`
-
-	// AddtionnalInfo to append after contact informations. You can use basic html here (bold, italic tags).
+	Name           string   `json:"name,omitempty" validate:"required,min=1,max=256"`
+	Logo           []byte   `json:"logo,omitempty"` // Logo byte array
+	Address        *Address `json:"address,omitempty"`
+	Phone          string   `json:"phone,omitempty"`
 	AddtionnalInfo []string `json:"additional_info,omitempty"`
 }
 
@@ -65,32 +65,46 @@ func (c *Contact) appendContactTODoc(
 	// Reset x
 	doc.pdf.SetX(x)
 
-	// Name rect - match Title Invoice styling
-	doc.pdf.Rect(x, doc.pdf.GetY(), 80, 10, "F")
+	// Calculate total height for unified block
+	var totalHeight float64 = 10 // Name height
+
+	if c.Phone != "" {
+		totalHeight += 5 // Phone height
+	}
+
+	if c.Address != nil {
+		addrHeight := 17
+		if len(c.Address.Address2) > 0 {
+			addrHeight += 5
+		}
+		if len(c.Address.Country) == 0 {
+			addrHeight -= 5
+		}
+		totalHeight += float64(addrHeight)
+	}
+
+	if c.AddtionnalInfo != nil {
+		totalHeight += float64(len(c.AddtionnalInfo))*3 + 2 // Additional info height
+	}
+
+	// Create unified background rectangle for all contact info
+	doc.pdf.Rect(x, doc.pdf.GetY(), 90, totalHeight, "F")
 
 	// Set name - match Title Invoice styling
 	doc.pdf.SetFont(doc.Options.Font, "B", 10)
-	doc.pdf.CellFormat(80, 10, doc.encodeString(c.Name), "0", 0, "L", false, 0, "")
-	doc.pdf.SetFont(doc.Options.Font, "", 8)
+	doc.pdf.CellFormat(90, 10, doc.encodeString(c.Name), "0", 0, "L", false, 0, "")
+
+	if c.Phone != "" {
+		doc.pdf.SetXY(x, doc.pdf.GetY()+10)
+		doc.pdf.SetFont(doc.Options.Font, "", 10)
+		doc.pdf.CellFormat(90, 5, doc.encodeString(fmt.Sprintf("%s: %s", doc.Options.TextPhoneTitle, c.Phone)), "0", 0, "L", false, 0, "")
+	}
 
 	if c.Address != nil {
-		// Address rect - match Title Invoice width
-		var addrRectHeight float64 = 17
-
-		if len(c.Address.Address2) > 0 {
-			addrRectHeight = addrRectHeight + 5
-		}
-
-		if len(c.Address.Country) == 0 {
-			addrRectHeight = addrRectHeight - 5
-		}
-
-		doc.pdf.Rect(x, doc.pdf.GetY()+9, 80, addrRectHeight, "F")
-
 		// Set address - match Title Invoice width
 		doc.pdf.SetFont(doc.Options.Font, "", 10)
-		doc.pdf.SetXY(x, doc.pdf.GetY()+10)
-		doc.pdf.MultiCell(80, 5, doc.encodeString(c.Address.ToString()), "0", "L", false)
+		doc.pdf.SetXY(x, doc.pdf.GetY()+5)
+		doc.pdf.MultiCell(90, 5, doc.encodeString(c.Address.ToString()), "0", "L", false)
 	}
 
 	// Addtionnal info

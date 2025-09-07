@@ -218,19 +218,7 @@ func (doc *Document) drawsTableTitles() {
 		"",
 	)
 
-	// Tax
-	doc.pdf.SetX(ItemColTaxOffset)
-	doc.pdf.CellFormat(
-		ItemColDiscountOffset-ItemColTaxOffset,
-		6,
-		doc.encodeString(doc.Options.TextItemsTaxTitle),
-		"0",
-		0,
-		"",
-		false,
-		0,
-		"",
-	)
+	// Tax - removed from items header
 
 	// Discount
 	doc.pdf.SetX(ItemColDiscountOffset)

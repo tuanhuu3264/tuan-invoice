@@ -271,18 +271,18 @@ func (md *MultiDocument) drawsTableTitles(doc *Document) {
 	)
 
 	// Tax
-	md.pdf.SetX(ItemColTaxOffset)
-	md.pdf.CellFormat(
-		ItemColDiscountOffset-ItemColTaxOffset,
-		6,
-		doc.encodeString(md.Options.TextItemsTaxTitle),
-		"0",
-		0,
-		"",
-		false,
-		0,
-		"",
-	)
+	// md.pdf.SetX(ItemColTaxOffset)
+	// md.pdf.CellFormat(
+	// 	ItemColDiscountOffset-ItemColTaxOffset,
+	// 	6,
+	// 	doc.encodeString(md.Options.TextItemsTaxTitle),
+	// 	"0",
+	// 	0,
+	// 	"",
+	// 	false,
+	// 	0,
+	// 	"",
+	// )
 
 	// Discount
 	md.pdf.SetX(ItemColDiscountOffset)

@@ -27,10 +27,6 @@ func main() {
 		TextPaymentTermTitle:   "Payment Term",
 		Font:                   "Arial",
 		BoldFont:               "Arial",
-		BaseTextColor:          []int{35, 35, 35},
-		GreyTextColor:          []int{128, 128, 128},
-		GreyBgColor:            []int{240, 240, 240},
-		DarkBgColor:            []int{0, 0, 0},
 	}
 
 	// Create multi-document
@@ -70,6 +66,7 @@ func main() {
 			PostalCode: "12345",
 			Country:    "Country",
 		},
+		Phone: "0909090909",
 	}
 
 	// Set customer info
@@ -81,14 +78,14 @@ func main() {
 			PostalCode: "67890",
 			Country:    "Country",
 		},
+		Phone: "0909090909",
 	}
 
 	// Add items
 	doc1.AppendItem(&generator.Item{
 		Name:     "Item 1",
-		UnitCost: "100.0",
+		UnitCost: "100.00",
 		Quantity: "2",
-		Tax:      &generator.Tax{Percent: "10"},
 	})
 
 	// Create second document
@@ -111,6 +108,7 @@ func main() {
 			PostalCode: "11111",
 			Country:    "Country",
 		},
+		Phone: "0909090909",
 	}
 
 	// Set customer info
@@ -122,6 +120,7 @@ func main() {
 			PostalCode: "22222",
 			Country:    "Country",
 		},
+		Phone: "0909090909",
 	}
 
 	// Add items
@@ -129,7 +128,6 @@ func main() {
 		Name:     "Item 2",
 		UnitCost: "150.0",
 		Quantity: "1",
-		Tax:      &generator.Tax{Percent: "15"},
 	})
 
 	// Add documents to multi-document

@@ -280,86 +280,86 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 		doc.pdf.SetY(baseY)
 	}
 
-	// Tax
-	doc.pdf.SetX(ItemColTaxOffset)
-	if i.Tax == nil {
-		// If no tax
-		doc.pdf.CellFormat(
-			ItemColDiscountOffset-ItemColTaxOffset,
-			colHeight,
-			doc.encodeString("--"),
-			"0",
-			0,
-			"",
-			false,
-			0,
-			"",
-		)
-	} else {
-		// If tax
-		taxType, taxAmount := i.Tax.getTax()
-		var taxTitle string
-		var taxDesc string
+	// // Tax
+	// doc.pdf.SetX(ItemColTaxOffset)
+	// if i.Tax == nil {
+	// 	// If no tax
+	// 	doc.pdf.CellFormat(
+	// 		ItemColDiscountOffset-ItemColTaxOffset,
+	// 		colHeight,
+	// 		doc.encodeString("--"),
+	// 		"0",
+	// 		0,
+	// 		"",
+	// 		false,
+	// 		0,
+	// 		"",
+	// 	)
+	// } else {
+	// 	// If tax
+	// 	taxType, taxAmount := i.Tax.getTax()
+	// 	var taxTitle string
+	// 	var taxDesc string
 
-		if taxType == TaxTypePercent {
-			taxTitle = fmt.Sprintf("%s %s", taxAmount, "%")
-			// get amount from percent
-			dCost := i.TotalWithoutTaxAndWithDiscount()
-			dAmount := dCost.Mul(taxAmount.Div(decimal.NewFromFloat(100)))
-			taxDesc = doc.ac.FormatMoneyDecimal(dAmount)
-		} else {
-			taxTitle = fmt.Sprintf("%s %s", doc.ac.Symbol, taxAmount)
-			dCost := i.TotalWithoutTaxAndWithDiscount()
-			dPerc := taxAmount.Mul(decimal.NewFromFloat(100))
-			dPerc = dPerc.Div(dCost)
-			// get percent from amount
-			taxDesc = fmt.Sprintf("%s %%", dPerc.StringFixed(2))
-		}
+	// 	if taxType == TaxTypePercent {
+	// 		taxTitle = fmt.Sprintf("%s %s", taxAmount, "%")
+	// 		// get amount from percent
+	// 		dCost := i.TotalWithoutTaxAndWithDiscount()
+	// 		dAmount := dCost.Mul(taxAmount.Div(decimal.NewFromFloat(100)))
+	// 		taxDesc = doc.ac.FormatMoneyDecimal(dAmount)
+	// 	} else {
+	// 		taxTitle = fmt.Sprintf("%s %s", doc.ac.Symbol, taxAmount)
+	// 		dCost := i.TotalWithoutTaxAndWithDiscount()
+	// 		dPerc := taxAmount.Mul(decimal.NewFromFloat(100))
+	// 		dPerc = dPerc.Div(dCost)
+	// 		// get percent from amount
+	// 		taxDesc = fmt.Sprintf("%s %%", dPerc.StringFixed(2))
+	// 	}
 
-		// tax title
-		// lastY := doc.pdf.GetY()
-		doc.pdf.CellFormat(
-			ItemColDiscountOffset-ItemColTaxOffset,
-			colHeight/2,
-			doc.encodeString(taxTitle),
-			"0",
-			0,
-			"LB",
-			false,
-			0,
-			"",
-		)
+	// 	// tax title
+	// 	// lastY := doc.pdf.GetY()
+	// 	doc.pdf.CellFormat(
+	// 		ItemColDiscountOffset-ItemColTaxOffset,
+	// 		colHeight/2,
+	// 		doc.encodeString(taxTitle),
+	// 		"0",
+	// 		0,
+	// 		"LB",
+	// 		false,
+	// 		0,
+	// 		"",
+	// 	)
 
-		// tax desc
-		doc.pdf.SetXY(ItemColTaxOffset, baseY+(colHeight/2))
-		doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.GreyTextColor[0],
-			doc.Options.GreyTextColor[1],
-			doc.Options.GreyTextColor[2],
-		)
+	// 	// tax desc
+	// 	doc.pdf.SetXY(ItemColTaxOffset, baseY+(colHeight/2))
+	// 	doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
+	// 	doc.pdf.SetTextColor(
+	// 		doc.Options.GreyTextColor[0],
+	// 		doc.Options.GreyTextColor[1],
+	// 		doc.Options.GreyTextColor[2],
+	// 	)
 
-		doc.pdf.CellFormat(
-			ItemColDiscountOffset-ItemColTaxOffset,
-			colHeight/2,
-			doc.encodeString(taxDesc),
-			"0",
-			0,
-			"LT",
-			false,
-			0,
-			"",
-		)
+	// 	doc.pdf.CellFormat(
+	// 		ItemColDiscountOffset-ItemColTaxOffset,
+	// 		colHeight/2,
+	// 		doc.encodeString(taxDesc),
+	// 		"0",
+	// 		0,
+	// 		"LT",
+	// 		false,
+	// 		0,
+	// 		"",
+	// 	)
 
-		// reset font and y
-		doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.BaseTextColor[0],
-			doc.Options.BaseTextColor[1],
-			doc.Options.BaseTextColor[2],
-		)
-		doc.pdf.SetY(baseY)
-	}
+	// 	// reset font and y
+	// 	doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
+	// 	doc.pdf.SetTextColor(
+	// 		doc.Options.BaseTextColor[0],
+	// 		doc.Options.BaseTextColor[1],
+	// 		doc.Options.BaseTextColor[2],
+	// 	)
+	// 	doc.pdf.SetY(baseY)
+	// }
 
 	// TOTAL TTC
 	doc.pdf.SetX(ItemColTotalTTCOffset)
