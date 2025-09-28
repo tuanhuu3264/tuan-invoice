@@ -9,7 +9,7 @@ import (
 type HeaderFooter struct {
 	UseCustomFunc bool    `json:"-"`
 	Text          string  `json:"text,omitempty"`
-	FontSize      float64 `json:"font_size,omitempty" default:"7"`
+	FontSize      float64 `json:"font_size,omitempty" default:"10"`
 	Pagination    bool    `json:"pagination,omitempty"`
 }
 

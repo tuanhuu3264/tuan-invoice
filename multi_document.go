@@ -108,11 +108,10 @@ func (md *MultiDocument) buildDocument(doc *Document) error {
 	md.pdf.SetXY(10, BaseMarginTop)
 
 	// Load font
-	md.pdf.SetFont(md.Options.Font, "", 12)
+	md.pdf.SetFont(md.Options.Font, "", 15)
 
 	// Append document title
 	md.appendTitle(doc)
-	md.appendBarcode(doc)
 
 	// Append document metas (ref & version)
 	md.appendMetas(doc)
@@ -145,6 +144,9 @@ func (md *MultiDocument) buildDocument(doc *Document) error {
 		md.pdf.AddPage()
 	}
 
+	// Append barcode parallel to total
+	md.appendBarcode(doc)
+
 	// Append notes
 	md.appendNotes(doc)
 
@@ -169,7 +171,7 @@ func (md *MultiDocument) appendTitle(doc *Document) {
 	md.pdf.Rect(120, BaseMarginTop, 80, 10, "F")
 
 	// Draw text
-	md.pdf.SetFont(md.Options.Font, "", 14)
+	md.pdf.SetFont(md.Options.Font, "", 17)
 	md.pdf.CellFormat(80, 10, doc.encodeString(title), "0", 0, "C", false, 0, "")
 }
 
@@ -179,7 +181,7 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	refString := fmt.Sprintf("%s: %s", md.Options.TextRefTitle, doc.Ref)
 
 	md.pdf.SetXY(120, BaseMarginTop+11)
-	md.pdf.SetFont(md.Options.Font, "", 8)
+	md.pdf.SetFont(md.Options.Font, "", 11)
 	md.pdf.CellFormat(80, 4, doc.encodeString(refString), "0", 0, "R", false, 0, "")
 
 	// Append date
@@ -189,7 +191,7 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	}
 	dateString := fmt.Sprintf("%s: %s", md.Options.TextDateTitle, date)
 	md.pdf.SetXY(120, BaseMarginTop+15)
-	md.pdf.SetFont(md.Options.Font, "", 8)
+	md.pdf.SetFont(md.Options.Font, "", 11)
 	md.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
 }
 
@@ -197,7 +199,7 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 func (md *MultiDocument) appendDescription(doc *Document) {
 	if len(doc.Description) > 0 {
 		md.pdf.SetY(md.pdf.GetY() + 5)
-		md.pdf.SetFont(md.Options.Font, "", 10)
+		md.pdf.SetFont(md.Options.Font, "", 13)
 		md.pdf.MultiCell(190, 5, doc.encodeString(doc.Description), "B", "L", false)
 	}
 }
@@ -207,7 +209,7 @@ func (md *MultiDocument) drawsTableTitles(doc *Document) {
 	// Draw table titles
 	md.pdf.SetX(10)
 	md.pdf.SetY(md.pdf.GetY() + 5)
-	md.pdf.SetFont(md.Options.BoldFont, "B", 8)
+	md.pdf.SetFont(md.Options.BoldFont, "B", 11)
 
 	// Draw rect with safe color
 	greyColor := md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
@@ -319,7 +321,7 @@ func (md *MultiDocument) appendItems(doc *Document) {
 
 	md.pdf.SetX(10)
 	md.pdf.SetY(md.pdf.GetY() + 8)
-	md.pdf.SetFont(md.Options.Font, "", 8)
+	md.pdf.SetFont(md.Options.Font, "", 11)
 
 	for i := 0; i < len(doc.Items); i++ {
 		item := doc.Items[i]
@@ -336,7 +338,7 @@ func (md *MultiDocument) appendItems(doc *Document) {
 			// Add page
 			md.pdf.AddPage()
 			md.drawsTableTitles(doc)
-			md.pdf.SetFont(md.Options.Font, "", 8)
+			md.pdf.SetFont(md.Options.Font, "", 11)
 		}
 
 		md.pdf.SetX(10)
@@ -350,24 +352,22 @@ func (md *MultiDocument) appendNotes(doc *Document) {
 		return
 	}
 
-	currentY := md.pdf.GetY()
-
-	md.pdf.SetFont(md.Options.Font, "", 9)
-	md.pdf.SetX(BaseMargin)
+	// Position notes at current Y position
+	md.pdf.SetY(md.pdf.GetY() + 40)
+	md.pdf.SetFont(md.Options.Font, "", 12)
+	md.pdf.SetX(10) // Left side position
 	md.pdf.SetRightMargin(100)
-	md.pdf.SetY(currentY + 10)
 
 	_, lineHt := md.pdf.GetFontSize()
 	html := md.pdf.HTMLBasicNew()
 	html.Write(lineHt, doc.encodeString(doc.Notes))
 
 	md.pdf.SetRightMargin(BaseMargin)
-	md.pdf.SetY(currentY)
 }
 
 // appendTotal to document
 func (md *MultiDocument) appendTotal(doc *Document) {
-	md.pdf.SetY(md.pdf.GetY() + 10)
+	md.pdf.SetY(md.pdf.GetY() - 30)
 	md.pdf.SetFont(md.Options.Font, "", LargeTextFontSize)
 	// Set text color with safe values
 	baseTextColor := md.getSafeColor(md.Options.BaseTextColor, []int{35, 35, 35})
@@ -509,7 +509,7 @@ func (md *MultiDocument) appendPaymentTerm(doc *Document) {
 		md.pdf.SetY(md.pdf.GetY() + 15)
 
 		md.pdf.SetX(120)
-		md.pdf.SetFont(md.Options.BoldFont, "B", 10)
+		md.pdf.SetFont(md.Options.BoldFont, "B", 13)
 		md.pdf.CellFormat(80, 4, doc.encodeString(paymentTermString), "0", 0, "R", false, 0, "")
 	}
 }
@@ -526,8 +526,8 @@ func (md *MultiDocument) generateBarcode(content string) ([]byte, error) {
 		return nil, err
 	}
 
-	// Scale the barcode
-	scaledBc, err := barcode.Scale(bc, 200, 50)
+	// Scale the barcode (even larger size)
+	scaledBc, err := barcode.Scale(bc, 300, 80)
 	if err != nil {
 		return nil, err
 	}
@@ -555,8 +555,7 @@ func (md *MultiDocument) appendBarcode(doc *Document) {
 		return
 	}
 
-	md.pdf.SetY(md.pdf.GetY() + 2.5)
-	md.pdf.SetX(120)
+	// Position barcode on the same row as total section (left side)
 
 	// Create filename for barcode
 	fileName := "barcode_" + doc.Ref
@@ -570,17 +569,35 @@ func (md *MultiDocument) appendBarcode(doc *Document) {
 	}, ioReader)
 
 	if imageInfo != nil {
-		// Position barcode at bottom right
-		x := 190 - imageInfo.Width() - 2.5 // Right align
-		y := md.pdf.GetY() + 10
+		// Store current Y position for total section
+		currentY := md.pdf.GetY()
 
-		md.pdf.ImageOptions(fileName, x, y, 0, 10, false, fpdf.ImageOptions{
+		// Position barcode on the left side, same row as total
+		x := 10.0
+		y := currentY + 10 // Same Y offset as total section
+
+		md.pdf.ImageOptions(fileName, x, y, 0, 20, false, fpdf.ImageOptions{
 			ImageType: "PNG",
 		}, 0, "")
-		// Add barcode text below, aligned with the barcode image
-		md.pdf.SetY(y + 11)
-		md.pdf.SetX(x + 7)
-		md.pdf.SetFont(md.Options.Font, "", 8)
-		md.pdf.CellFormat(imageInfo.Width(), 4, doc.encodeString(doc.BarCode), "0", 0, "L", false, 0, "")
+		// Add barcode text below, perfectly centered within barcode width
+		md.pdf.SetY(y + 21)
+		md.pdf.SetFont(md.Options.Font, "", 11)
+
+		// Get text width for centering calculation
+		textWidth := md.pdf.GetStringWidth(doc.encodeString(doc.BarCode))
+
+		// Use the barcode's actual rendered width (300px scaled to PDF units)
+		// The barcode is scaled to 300px width, so we need to account for the PDF scaling
+		barcodeWidth := 300.0 * (20.0 / 80.0) // Scale factor: PDF height / original height
+
+		// Calculate perfect center position
+		centerX := x + (barcodeWidth-textWidth)/2
+		md.pdf.SetX(centerX)
+
+		// Draw the text centered
+		md.pdf.CellFormat(textWidth, 4, doc.encodeString(doc.BarCode), "0", 0, "C", false, 0, "")
+
+		// Reset Y position to where total section will start
+		md.pdf.SetY(currentY)
 	}
 }

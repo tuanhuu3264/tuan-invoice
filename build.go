@@ -45,11 +45,11 @@ func (doc *Document) Build() (*fpdf.Fpdf, error) {
 	doc.pdf.AddPage()
 
 	// Load font
-	doc.pdf.SetFont(doc.Options.Font, "", 12)
+	doc.pdf.SetFont(doc.Options.Font, "", 15)
+	doc.appendBarcode()
 
 	// Appenf document title
 	doc.appendTitle()
-	doc.appendBarcode()
 
 	// Appenf document metas (ref & version)
 	doc.appendMetas()
@@ -110,7 +110,7 @@ func (doc *Document) appendTitle() {
 	doc.pdf.Rect(120, BaseMarginTop, 80, 10, "F")
 
 	// Draw text
-	doc.pdf.SetFont(doc.Options.Font, "", 14)
+	doc.pdf.SetFont(doc.Options.Font, "", 17)
 	doc.pdf.CellFormat(80, 10, doc.encodeString(title), "0", 0, "C", false, 0, "")
 }
 
@@ -120,14 +120,14 @@ func (doc *Document) appendMetas() {
 	refString := fmt.Sprintf("%s: %s", doc.Options.TextRefTitle, doc.Ref)
 
 	doc.pdf.SetXY(120, BaseMarginTop+11)
-	doc.pdf.SetFont(doc.Options.Font, "", 8)
+	doc.pdf.SetFont(doc.Options.Font, "", 11)
 	doc.pdf.CellFormat(80, 4, doc.encodeString(refString), "0", 0, "R", false, 0, "")
 
 	// Append version
 	if len(doc.Version) > 0 {
 		versionString := fmt.Sprintf("%s: %s", doc.Options.TextVersionTitle, doc.Version)
 		doc.pdf.SetXY(120, BaseMarginTop+15)
-		doc.pdf.SetFont(doc.Options.Font, "", 8)
+		doc.pdf.SetFont(doc.Options.Font, "", 11)
 		doc.pdf.CellFormat(80, 4, doc.encodeString(versionString), "0", 0, "R", false, 0, "")
 	}
 
@@ -138,7 +138,7 @@ func (doc *Document) appendMetas() {
 	}
 	dateString := fmt.Sprintf("%s: %s", doc.Options.TextDateTitle, date)
 	doc.pdf.SetXY(120, BaseMarginTop+19)
-	doc.pdf.SetFont(doc.Options.Font, "", 8)
+	doc.pdf.SetFont(doc.Options.Font, "", 11)
 	doc.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
 }
 
@@ -146,7 +146,7 @@ func (doc *Document) appendMetas() {
 func (doc *Document) appendDescription() {
 	if len(doc.Description) > 0 {
 		doc.pdf.SetY(doc.pdf.GetY() + 10)
-		doc.pdf.SetFont(doc.Options.Font, "", 10)
+		doc.pdf.SetFont(doc.Options.Font, "", 13)
 		doc.pdf.MultiCell(190, 5, doc.encodeString(doc.Description), "B", "L", false)
 	}
 }
@@ -156,7 +156,7 @@ func (doc *Document) drawsTableTitles() {
 	// Draw table titles
 	doc.pdf.SetX(10)
 	doc.pdf.SetY(doc.pdf.GetY() + 5)
-	doc.pdf.SetFont(doc.Options.BoldFont, "B", 8)
+	doc.pdf.SetFont(doc.Options.BoldFont, "B", 11)
 
 	// Draw rec
 	doc.pdf.SetFillColor(doc.Options.GreyBgColor[0], doc.Options.GreyBgColor[1], doc.Options.GreyBgColor[2])
@@ -255,7 +255,7 @@ func (doc *Document) appendItems() {
 
 	doc.pdf.SetX(10)
 	doc.pdf.SetY(doc.pdf.GetY() + 8)
-	doc.pdf.SetFont(doc.Options.Font, "", 8)
+	doc.pdf.SetFont(doc.Options.Font, "", 11)
 
 	for i := 0; i < len(doc.Items); i++ {
 		item := doc.Items[i]
@@ -272,7 +272,7 @@ func (doc *Document) appendItems() {
 			// Add page
 			doc.pdf.AddPage()
 			doc.drawsTableTitles()
-			doc.pdf.SetFont(doc.Options.Font, "", 8)
+			doc.pdf.SetFont(doc.Options.Font, "", 11)
 		}
 
 		doc.pdf.SetX(10)
@@ -288,7 +288,7 @@ func (doc *Document) appendNotes() {
 
 	currentY := doc.pdf.GetY()
 
-	doc.pdf.SetFont(doc.Options.Font, "", 9)
+	doc.pdf.SetFont(doc.Options.Font, "", 12)
 	doc.pdf.SetX(BaseMargin)
 	doc.pdf.SetRightMargin(100)
 	doc.pdf.SetY(currentY + 10)
@@ -459,7 +459,7 @@ func (doc *Document) appendPaymentTerm() {
 		doc.pdf.SetY(doc.pdf.GetY() + 15)
 
 		doc.pdf.SetX(120)
-		doc.pdf.SetFont(doc.Options.BoldFont, "B", 10)
+		doc.pdf.SetFont(doc.Options.BoldFont, "B", 13)
 		doc.pdf.CellFormat(80, 4, doc.encodeString(paymentTermString), "0", 0, "R", false, 0, "")
 	}
 }
@@ -530,7 +530,7 @@ func (doc *Document) appendBarcode() {
 		// Add barcode text below, aligned with the barcode image
 		doc.pdf.SetY(y + 11)
 		doc.pdf.SetX(x + 7)
-		doc.pdf.SetFont(doc.Options.Font, "", 8)
+		doc.pdf.SetFont(doc.Options.Font, "", 11)
 		doc.pdf.CellFormat(imageInfo.Width(), 4, doc.encodeString(doc.BarCode), "0", 0, "L", false, 0, "")
 	}
 }

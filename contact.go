@@ -47,7 +47,7 @@ func (c *Contact) appendContactTODoc(
 		if imageInfo != nil {
 			var imageOpt fpdf.ImageOptions
 			imageOpt.ImageType = format
-			doc.pdf.ImageOptions(fileName, x, y-30, 20, 30, false, imageOpt, 0, "")
+			doc.pdf.ImageOptions(fileName, x, y-50, 50, 50, false, imageOpt, 0, "")
 		}
 	}
 
@@ -91,18 +91,18 @@ func (c *Contact) appendContactTODoc(
 	doc.pdf.Rect(x, doc.pdf.GetY(), 80, totalHeight, "F")
 
 	// Set name - match Title Invoice styling
-	doc.pdf.SetFont(doc.Options.Font, "B", 10)
+	doc.pdf.SetFont(doc.Options.Font, "B", 13)
 	doc.pdf.CellFormat(80, 10, doc.encodeString(c.Name), "0", 0, "L", false, 0, "")
 
 	if c.Phone != "" {
 		doc.pdf.SetXY(x, doc.pdf.GetY()+10)
-		doc.pdf.SetFont(doc.Options.Font, "", 10)
+		doc.pdf.SetFont(doc.Options.Font, "", 13)
 		doc.pdf.CellFormat(80, 5, doc.encodeString(fmt.Sprintf("%s: %s", doc.Options.TextPhoneTitle, c.Phone)), "0", 0, "L", false, 0, "")
 	}
 
 	if c.Address != nil {
 		// Set address - match Title Invoice width
-		doc.pdf.SetFont(doc.Options.Font, "", 10)
+		doc.pdf.SetFont(doc.Options.Font, "", 13)
 		doc.pdf.SetXY(x, doc.pdf.GetY()+5)
 		doc.pdf.MultiCell(80, 5, doc.encodeString(c.Address.ToString()), "0", "L", false)
 	}
