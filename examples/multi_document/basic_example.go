@@ -91,9 +91,10 @@ func main() {
 
 	// Add items
 	doc1.AppendItem(&generator.Item{
-		Name:     "Item 1",
-		UnitCost: "100.00",
-		Quantity: "2",
+		Name:        "Item 1",
+		Description: "This is a test description that should not appear",
+		UnitCost:    "100.00",
+		Quantity:    "2",
 	})
 
 	// Create second document
@@ -152,10 +153,10 @@ func main() {
 	}
 
 	// Save to file
-	err = pdf.OutputFileAndClose("multi_document_example_better_spacing.pdf")
+	err = pdf.OutputFileAndClose("multi_document_example_no_silver_final.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Multi-document PDF with better line spacing generated successfully!")
+	log.Println("Multi-document PDF with no silver text lines generated successfully!")
 }

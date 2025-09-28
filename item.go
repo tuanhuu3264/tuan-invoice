@@ -112,15 +112,12 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 	// Get base Y (top of line)
 	baseY := doc.pdf.GetY() + 5
 
-	// Name
+	// Name - use Cell instead of MultiCell to prevent automatic line breaks
 	doc.pdf.SetX(ItemColNameOffset)
-	doc.pdf.MultiCell(
+	doc.pdf.Cell(
 		ItemColUnitPriceOffset-ItemColNameOffset,
 		4,
 		doc.encodeString(i.Name),
-		"",
-		"",
-		false,
 	)
 
 	// Description - removed to eliminate silver text lines
