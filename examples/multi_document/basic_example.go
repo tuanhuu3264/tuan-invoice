@@ -153,10 +153,10 @@ func main() {
 	}
 
 	// Save to file
-	err = pdf.OutputFileAndClose("multi_document_example_no_silver_final.pdf")
+	err = pdf.OutputFileAndClose("multi_document_example_wrap_no_silver.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Multi-document PDF with no silver text lines generated successfully!")
+	log.Println("Multi-document PDF with text wrapping but no silver text generated successfully!")
 }

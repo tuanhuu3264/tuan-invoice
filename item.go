@@ -112,12 +112,21 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 	// Get base Y (top of line)
 	baseY := doc.pdf.GetY() + 5
 
-	// Name - use Cell instead of MultiCell to prevent automatic line breaks
+	// Name - use MultiCell but with proper line height to prevent silver text effect
 	doc.pdf.SetX(ItemColNameOffset)
-	doc.pdf.Cell(
+	doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
+	doc.pdf.SetTextColor(
+		doc.Options.BaseTextColor[0],
+		doc.Options.BaseTextColor[1],
+		doc.Options.BaseTextColor[2],
+	)
+	doc.pdf.MultiCell(
 		ItemColUnitPriceOffset-ItemColNameOffset,
 		4,
 		doc.encodeString(i.Name),
+		"",
+		"",
+		false,
 	)
 
 	// Description - removed to eliminate silver text lines
