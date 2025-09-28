@@ -367,7 +367,7 @@ func (md *MultiDocument) appendNotes(doc *Document) {
 
 // appendTotal to document
 func (md *MultiDocument) appendTotal(doc *Document) {
-	md.pdf.SetY(md.pdf.GetY() - 35)
+	md.pdf.SetY(md.pdf.GetY() - 40)
 	md.pdf.SetFont(md.Options.Font, "", LargeTextFontSize)
 	// Set text color with safe values
 	baseTextColor := md.getSafeColor(md.Options.BaseTextColor, []int{35, 35, 35})
