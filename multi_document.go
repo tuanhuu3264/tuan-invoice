@@ -342,7 +342,7 @@ func (md *MultiDocument) appendItems(doc *Document) {
 		}
 
 		md.pdf.SetX(10)
-		md.pdf.SetY(md.pdf.GetY() + 6)
+		md.pdf.SetY(md.pdf.GetY() + 8)
 	}
 }
 

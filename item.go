@@ -116,42 +116,42 @@ func (i *Item) appendColTo(options *Options, doc *Document) {
 	doc.pdf.SetX(ItemColNameOffset)
 	doc.pdf.MultiCell(
 		ItemColUnitPriceOffset-ItemColNameOffset,
-		3,
+		4,
 		doc.encodeString(i.Name),
 		"",
 		"",
 		false,
 	)
 
-	// Description
-	if len(i.Description) > 0 {
-		doc.pdf.SetX(ItemColNameOffset)
-		doc.pdf.SetY(doc.pdf.GetY() + 1)
+	// Description - removed to eliminate silver text lines
+	// if len(i.Description) > 0 {
+	// 	doc.pdf.SetX(ItemColNameOffset)
+	// 	doc.pdf.SetY(doc.pdf.GetY() + 1)
 
-		doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.GreyTextColor[0],
-			doc.Options.GreyTextColor[1],
-			doc.Options.GreyTextColor[2],
-		)
+	// 	doc.pdf.SetFont(doc.Options.Font, "", SmallTextFontSize)
+	// 	doc.pdf.SetTextColor(
+	// 		doc.Options.GreyTextColor[0],
+	// 		doc.Options.GreyTextColor[1],
+	// 		doc.Options.GreyTextColor[2],
+	// 	)
 
-		doc.pdf.MultiCell(
-			ItemColUnitPriceOffset-ItemColNameOffset,
-			3,
-			doc.encodeString(i.Description),
-			"",
-			"",
-			false,
-		)
+	// 	doc.pdf.MultiCell(
+	// 		ItemColUnitPriceOffset-ItemColNameOffset,
+	// 		3,
+	// 		doc.encodeString(i.Description),
+	// 		"",
+	// 		"",
+	// 		false,
+	// 	)
 
-		// Reset font
-		doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
-		doc.pdf.SetTextColor(
-			doc.Options.BaseTextColor[0],
-			doc.Options.BaseTextColor[1],
-			doc.Options.BaseTextColor[2],
-		)
-	}
+	// 	// Reset font
+	// 	doc.pdf.SetFont(doc.Options.Font, "", BaseTextFontSize)
+	// 	doc.pdf.SetTextColor(
+	// 		doc.Options.BaseTextColor[0],
+	// 		doc.Options.BaseTextColor[1],
+	// 		doc.Options.BaseTextColor[2],
+	// 	)
+	// }
 
 	// Compute line height
 	colHeight := doc.pdf.GetY() - baseY

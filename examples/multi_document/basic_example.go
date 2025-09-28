@@ -152,10 +152,10 @@ func main() {
 	}
 
 	// Save to file
-	err = pdf.OutputFileAndClose("multi_document_example_extra_small_items.pdf")
+	err = pdf.OutputFileAndClose("multi_document_example_better_spacing.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Multi-document PDF with extra small item font size generated successfully!")
+	log.Println("Multi-document PDF with better line spacing generated successfully!")
 }
