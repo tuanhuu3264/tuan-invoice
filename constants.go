@@ -49,7 +49,7 @@ const (
 
 var (
 	// BaseTextFontSize define the base font size for text in document
-	BaseTextFontSize float64 = 9
+	BaseTextFontSize float64 = 10
 
 	// SmallTextFontSize define the small font size for text in document
 	SmallTextFontSize float64 = 8

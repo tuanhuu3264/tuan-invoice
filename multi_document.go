@@ -181,7 +181,7 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	refString := fmt.Sprintf("%s: %s", md.Options.TextRefTitle, doc.Ref)
 
 	md.pdf.SetXY(120, BaseMarginTop+11)
-	md.pdf.SetFont(md.Options.Font, "", 9)
+	md.pdf.SetFont(md.Options.Font, "", 10)
 	md.pdf.CellFormat(80, 4, doc.encodeString(refString), "0", 0, "R", false, 0, "")
 
 	// Append date
@@ -191,7 +191,7 @@ func (md *MultiDocument) appendMetas(doc *Document) {
 	}
 	dateString := fmt.Sprintf("%s: %s", md.Options.TextDateTitle, date)
 	md.pdf.SetXY(120, BaseMarginTop+15)
-	md.pdf.SetFont(md.Options.Font, "", 9)
+	md.pdf.SetFont(md.Options.Font, "", 10)
 	md.pdf.CellFormat(80, 4, doc.encodeString(dateString), "0", 0, "R", false, 0, "")
 }
 
@@ -209,7 +209,7 @@ func (md *MultiDocument) drawsTableTitles(doc *Document) {
 	// Draw table titles
 	md.pdf.SetX(10)
 	md.pdf.SetY(md.pdf.GetY() + 5)
-	md.pdf.SetFont(md.Options.BoldFont, "B", 9)
+	md.pdf.SetFont(md.Options.BoldFont, "B", 10)
 
 	// Draw rect with safe color
 	greyColor := md.getSafeColor(md.Options.GreyBgColor, []int{240, 240, 240})
@@ -321,7 +321,7 @@ func (md *MultiDocument) appendItems(doc *Document) {
 
 	md.pdf.SetX(10)
 	md.pdf.SetY(md.pdf.GetY() + 8)
-	md.pdf.SetFont(md.Options.Font, "", 9)
+	md.pdf.SetFont(md.Options.Font, "", 10)
 
 	for i := 0; i < len(doc.Items); i++ {
 		item := doc.Items[i]
@@ -338,7 +338,7 @@ func (md *MultiDocument) appendItems(doc *Document) {
 			// Add page
 			md.pdf.AddPage()
 			md.drawsTableTitles(doc)
-			md.pdf.SetFont(md.Options.Font, "", 9)
+			md.pdf.SetFont(md.Options.Font, "", 10)
 		}
 
 		md.pdf.SetX(10)
@@ -581,7 +581,7 @@ func (md *MultiDocument) appendBarcode(doc *Document) {
 		}, 0, "")
 		// Add barcode text below, perfectly centered within barcode width
 		md.pdf.SetY(y + 21)
-		md.pdf.SetFont(md.Options.Font, "", 9)
+		md.pdf.SetFont(md.Options.Font, "", 10)
 
 		// Get text width for centering calculation
 		textWidth := md.pdf.GetStringWidth(doc.encodeString(doc.BarCode))

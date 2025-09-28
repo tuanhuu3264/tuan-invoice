@@ -153,10 +153,10 @@ func main() {
 	}
 
 	// Save to file
-	err = pdf.OutputFileAndClose("multi_document_example_wrap_no_silver.pdf")
+	err = pdf.OutputFileAndClose("multi_document_example_larger_items.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Multi-document PDF with text wrapping but no silver text generated successfully!")
+	log.Println("Multi-document PDF with larger item font size generated successfully!")
 }
