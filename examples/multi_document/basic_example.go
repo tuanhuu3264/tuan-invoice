@@ -152,10 +152,10 @@ func main() {
 	}
 
 	// Save to file
-	err = pdf.OutputFileAndClose("multi_document_example_final_layout.pdf")
+	err = pdf.OutputFileAndClose("multi_document_example_extra_small_items.pdf")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Multi-document PDF with final layout (notes->barcode->total) generated successfully!")
+	log.Println("Multi-document PDF with extra small item font size generated successfully!")
 }
